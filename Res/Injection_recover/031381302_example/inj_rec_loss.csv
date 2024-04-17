@@ -1,0 +1,3 @@
+"","n_inj","t_half","xm","alpha","offset","upper","i_rep","method","n_detected","n_injected","TP","FP","FN","SEN","SPC"
+"1",5,5e-05,10,1,30,150,1,"QFD",5,5,5,0,0,1,1
+"2",5,5e-05,10,1,30,150,1,"1-3-sigma",6,5,5,1,0,1,0.833333333333333
