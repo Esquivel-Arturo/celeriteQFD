@@ -545,5 +545,3 @@ pdf("./celeriteQFD/Res/CeleriteQFD/031381302/det_compare2.pdf", width = 8, heigh
 ggarrange(pl3_1, pl3_2, pl3_3, pl3_4, ncol=2, nrow=2, common.legend = FALSE, widths = c(1, 0.5))
 dev.off()
 
-
-
