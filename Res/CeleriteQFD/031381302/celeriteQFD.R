@@ -14,7 +14,6 @@ rawdata[,2] <- rawdata[,2] - mean(rawdata[,2], na.rm = TRUE)
 observed <- (!is.na(rawdata[,2])) * 1
 rawdata[is.na(rawdata[,2]),2] <- 0
 N <- nrow(rawdata)
-plot(rawdata)
 tt <- rawdata[,1]
 
 # Fit celeriteQFD
