@@ -69,9 +69,9 @@ Viterbi_raw <- QFD_samples[,1:(N-1) + (N + 22)]
 Viterbi_max <- apply(Viterbi_raw,2,majority)
 
 # Plot data 
-data <- data.frame("TIME" = rawdata$TIME,
-                   "PDCSAP_FLUX" = rawdata$PDCSAP_FLUX,
-                   "Trend" = summQFD[[1]][1:N+2*N+21, 1],
+data <- data.frame("TIME" = rawdata$TIME[2:N],
+                   "PDCSAP_FLUX" = rawdata$PDCSAP_FLUX[2:N],
+                   "Trend" = summQFD[[1]][2:N+2*N+21, 1],
                    "state" = as.factor(Viterbi_max))
 
 ggplot(data, aes(x = TIME)) +
