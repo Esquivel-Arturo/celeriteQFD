@@ -2,6 +2,7 @@ library(rstan)
 library(dplyr)
 library(ggpubr)
 library(ggplot2)
+library(tidyverse)
 options(mc.cores = parallel::detectCores()/2)
 rstan_options(auto_write = TRUE)
 source("./celeriteQFD/R/misc.R") # Helper functions
@@ -68,8 +69,8 @@ Viterbi_raw <- QFD_samples[,1:(N-1) + (N + 22)]
 Viterbi_max <- apply(Viterbi_raw,2,majority)
 
 # Plot data 
-data <- data.frame("TIME" = rawdata$TIME[2:N],
-                   "PDCSAP_FLUX" = rawdata$PDCSAP_FLUX[2:N],
+data <- data.frame("Time" = rawdata$time[2:N],
+                   "PDCSAP_FLUX" = rawdata$pdcsap_flux[2:N],
                    "Trend" = summQFD[[1]][2:N+2*N+21, 1],
                    "state" = as.factor(Viterbi_max))
 
@@ -96,12 +97,12 @@ ggplot(data, aes(x = TIME)) +
 
 # Fit celerite alone
 
-modelcelerite <- stan_model(file = './celeriteQFD/Stan/Prototypes/Celerite/celerite-missing-handling.stan', 
+modelcelerite <- stan_model(file = './celeriteQFD/Stan/Morphology/QFD/celerite-missing-handling.stan', 
             model_name = "celerit2", 
             allow_undefined = TRUE,
             includes = paste0('\n#include "', 
-                             file.path('./celeriteQFD/', 
-                             'celerite2/celerite2.hpp'), '"\n'))
+                             normalizedPath('./celeriteQFD/celerite2/celerite2.hpp', 
+                              mustWork = T), '"\n'))
 
 celeritedata <- QFD_data
 celeritedata$err_prior <- c(0.01, 0.01)
@@ -155,7 +156,7 @@ probs_data$Time <- rep(seq(1,length(probs_data$Time)/3),3)
           axis.title.y = element_blank()))
 
 # Light curve and color coded observations
-(flux_pl <- ggplot(full_data[4267:4397, ], aes(x = TIME)) +
+(flux_pl <- ggplot(full_data[4267:4397, ], aes(x = Time)) +
     geom_point(aes( y = PDCSAP_FLUX, col = state, size = state )) + 
     scale_color_manual(values = c("#000000", "#D55E00", "#E69F00", "#CC79A7"),
                        labels = c("1" = "Quiet", "2" = "Firing", "3" = "Decay", "Trend")) +
